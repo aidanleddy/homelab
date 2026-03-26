@@ -22,6 +22,14 @@ A home server built on a **Surface Book 2** with a shattered display, running 15
 
 The server runs headless on a Surface Book 2. Obviously not typical server hardware, which created real constraints around driver support and power management.
 
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/homelab-v1-network-diagram-dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="assets/homelab-v1-network-diagram-light.png">
+    <img alt="Homelab v1 Network Architecture" src="assets/homelab-v1-network-diagram-light.png" width="100%">
+  </picture>
+</p>
+
 **Hardware**
 
 - **Host:** Microsoft Surface Book 2 13.5" (headless)
