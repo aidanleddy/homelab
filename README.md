@@ -45,7 +45,7 @@ The server runs headless on a Surface Book 2. Obviously not typical server hardw
 
 ## 🛠️ Notable Setup Decisions
 
-**Ubuntu Surface Kernel** — Standard Ubuntu Server doesn't have drivers for Surface hardware out of the box. Installing the community Surface Kernel got the NVIDIA GPU and power management working correctly.
+**Linux Surface Kernel** — Standard Ubuntu Server doesn't have drivers for Surface hardware out of the box. Installing the community Surface Kernel got the NVIDIA GPU and power management working correctly.
 
 **GPU-Accelerated Transcoding** — Set up NVENC/NVDEC passthrough into Docker so Jellyfin uses the GTX 1050 for transcoding instead of the CPU. Idle draw dropped from ~23W to under 17W, and thermals stopped being a problem under load.
 
@@ -62,7 +62,7 @@ Problems encountered during 8+ months of operation, documented with root cause a
 
 | Date | Issue | Post          |
 | ---- | ----- | ------------- |
-| —    | —     | _Coming soon_ |
+| 2025-06    | ISP CGNAT blocking port forwarding, resolved with Tailscale mesh VPN     | [CGNAT & Tailscale](https://medium.com/@aidanleddy/19a42a07b5a2) |
 
 ---
 
