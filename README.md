@@ -62,7 +62,8 @@ Problems encountered during 8+ months of operation, documented with root cause a
 
 | Date | Issue | Post          |
 | ---- | ----- | ------------- |
-| 2025-06    | ISP CGNAT blocking port forwarding, resolved with Tailscale mesh VPN     | [CGNAT & Tailscale](https://medium.com/@aidanleddy/19a42a07b5a2) |
+| 2025-06 | ISP CGNAT blocking port forwarding, resolved with Tailscale mesh VPN | [CGNAT & Tailscale](https://medium.com/@aidanleddy/19a42a07b5a2) |
+| —    | —     | _Coming soon_ |
 
 ---
 
