@@ -63,6 +63,7 @@ Problems encountered during 8+ months of operation, documented with root cause a
 | Date | Issue | Post          |
 | ---- | ----- | ------------- |
 | 2025-06 | ISP CGNAT blocking port forwarding, resolved with Tailscale mesh VPN | [The Blessing of a Closed Port](https://medium.com/@aidanleddy/the-blessing-of-a-closed-port-how-cgnat-forced-me-to-build-a-better-homelab-19a42a07b5a2?source=friends_link&sk=19516024ace502fceb8ed64ebd9242b1) |
+| 2025-07 | Unreliable/slow sync via iCloud, resolved with peer-to-peer Syncthing relay | [I Built My Own Cloud Relay](https://medium.com/@aidanleddy/i-built-my-own-cloud-relay-191e52d10ac2?source=friends_link&sk=576070dc15204738dd312dc20242cca4) |
 | —    | —     | _Coming soon_ |
 
 ---
