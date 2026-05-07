@@ -39,7 +39,12 @@ The server runs headless on a Surface Book 2. Obviously not typical server hardw
 - **Primary Storage:** 512GB internal SSD
 - **Expanded Storage:** 2TB WD Black SN770 NVMe via Sabrent USB 3.2 enclosure
 
-**Power draw:** ~12.6 kWh/month running 24/7, after offloading transcoding to the GPU and tuning idle power states.
+<p align="center">
+  <img src="assets/kasa-energy-graph-jan-26.jpeg" alt="
+A bar graph from the Kasa app shows daily energy usage for January 2026, totaling 12.742 kWh with relatively consistent consumption levels throughout the month." width="75%">
+  <br>
+  ~12.7 kWh/month or <18W idle running 24/7, after offloading transcoding to the GPU and tuning idle power states.
+</p>
 
 ---
 
