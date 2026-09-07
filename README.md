@@ -24,9 +24,9 @@ The server runs headless on a Surface Book 2. Obviously not typical server hardw
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/homelab-v1-network-diagram-dark.png">
-    <source media="(prefers-color-scheme: light)" srcset="assets/homelab-v1-network-diagram-light.png">
-    <img alt="Homelab v1 Network Architecture" src="assets/homelab-v1-network-diagram-light.png" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="assets/homelab-v1-network-diagram-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="assets/homelab-v1-network-diagram-light.svg">
+    <img alt="Homelab v1 Network Architecture" src="assets/homelab-v1-network-diagram-light.svg" width="100%">
   </picture>
 </p>
 
