@@ -1,0 +1,102 @@
+# ==============================================================================
+# Environment Variables, Secrets & API Credentials
+# ==============================================================================
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.pfx
+*.p12
+*.pub
+
+# Cloud & Service Account Credentials
+*creds*.json
+*credentials*.json
+gcp-creds.json
+service-account*.json
+token.json
+
+# ==============================================================================
+# Container Volumes, Persistent State & Database Stores
+# ==============================================================================
+# Databases (PostgreSQL, MySQL, SQLite, Valkey/Redis)
+*.db
+*.sqlite
+*.sqlite3
+*.rdb
+*.sql
+*.sql.gz
+postgres_data/
+litellm_postgres_data/
+valkey_data/
+redis_data/
+
+# Application Specific State & Caches
+openwebui_data/
+searxng_cache/
+searxng_data/
+media/
+downloads/
+backups/
+
+# Telemetry & Observability TSDBs
+prometheus_data/
+grafana_data/
+
+# Generic Docker Mount Targets
+volumes/
+data/
+
+# ==============================================================================
+# Operating System & Filesystem Artifacts
+# ==============================================================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+.directory
+
+# ==============================================================================
+# IDEs, Editors & Tooling
+# ==============================================================================
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# JetBrains (CLion, IntelliJ, etc.)
+.idea/
+*.iws
+*.iml
+
+# Vim / Emacs
+*.swp
+*.swo
+*~
+\#*\#
+.#*
+
+# ==============================================================================
+# Logs & Temporary Files
+# ==============================================================================
+*.log
+logs/
+*.pid
+*.tmp
+*.bak
