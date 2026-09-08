@@ -1,0 +1,12 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: "litellm-proxy"
+    metrics_path: "/metrics"
+    static_configs:
+      - targets: ["litellm:4000"]
+        labels:
+          tier: "orchestration"
+          service: "model-router"

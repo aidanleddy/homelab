@@ -1,0 +1,51 @@
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+  database_url: os.environ/DATABASE_URL
+
+litellm_settings:
+  callbacks:
+    - prometheus
+  always_include_stream_usage: true
+  turn_off_message_logging: true
+  telemetry: false
+
+model_list:
+  # --- Edge Inference Node (Apple Silicon M4 Pro via Tailscale) ---
+  - model_name: qwen-3.6-35b
+    litellm_params:
+      model: ollama_chat/qwen3.6:35b-a3b-coding-nvfp4
+      api_base: "http://${OLLAMA_NODE_IP}:11434"
+      request_timeout: 120
+
+  - model_name: gemma-4-12b
+    litellm_params:
+      model: ollama_chat/gemma4:12b
+      api_base: "http://${OLLAMA_NODE_IP}:11434"
+      request_timeout: 60
+
+  - model_name: llama-3.1-8b
+    litellm_params:
+      model: ollama_chat/llama3.1:8b
+      api_base: "http://${OLLAMA_NODE_IP}:11434"
+      request_timeout: 45
+
+  # --- Cloud Burst / Fallback (Gemini Enterprise Agent Platform) ---
+  - model_name: gemini-3.5-flash
+    litellm_params:
+      model: vertex_ai/gemini-3.5-flash
+      vertex_project: "${GCP_PROJECT_ID}"
+      vertex_location: "us-central1"
+
+  - model_name: claude-sonnet-4.6
+    litellm_params:
+      model: vertex_ai/claude-sonnet-4-6
+      vertex_project: "${GCP_PROJECT_ID}"
+      vertex_location: "us-east5"
+
+router_settings:
+  fallbacks:
+    - qwen-3.6-35b: ["gemini-3.5-flash"]
+    - gemma-4-12b: ["gemini-3.5-flash"]
+    - llama-3.1-8b: ["gemini-3.5-flash"]
+    - claude-sonnet-4.6: ["gemini-3.5-flash"]
+  routing_strategy: "latency-based-routing"

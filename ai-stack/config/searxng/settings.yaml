@@ -1,0 +1,32 @@
+use_default_settings: true
+
+general:
+  debug: false
+  instance_name: "Local AI Meta-Search"
+
+server:
+  bind_address: "0.0.0.0"
+  port: 8080
+  base_url: false
+  secret_key: "ultrasafe_searxng_secret_token" # Overridden by SEARXNG_SECRET in compose
+
+search:
+  safe_search: 0
+  autocomplete: ""
+  formats:
+    - html
+    - json
+
+redis:
+  url: valkey://searxng-valkey:6379/0
+
+engines:
+  - name: duckduckgo
+    engine: duckduckgo
+    categories: general
+  - name: wikipedia
+    engine: wikipedia
+    categories: general
+  - name: github
+    engine: github
+    categories: it

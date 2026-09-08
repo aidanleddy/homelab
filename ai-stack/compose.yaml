@@ -1,0 +1,127 @@
+services:
+  # --- UI & Interaction Layer ---
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    restart: unless-stopped
+    ports:
+      - "${WEBUI_PORT:-3080}:8080"
+    volumes:
+      - openwebui_data:/app/backend/data
+    environment:
+      - WEBUI_SECRET_KEY=${WEBUI_SECRET_KEY}
+      - WEBUI_ADMIN_EMAIL=${WEBUI_ADMIN_EMAIL}
+      - WEBUI_ADMIN_PASSWORD=${WEBUI_ADMIN_PASSWORD}
+      - OPENAI_API_BASE_URL=http://litellm:4000/v1
+      - OPENAI_API_KEY=${LITELLM_MASTER_KEY}
+      - ENABLE_RAG_WEB_SEARCH=True
+      - RAG_WEB_SEARCH_ENGINE=searxng
+      - SEARXNG_QUERY_URL=http://searxng-core:8080/search?q=<query>
+    networks:
+      - ai-mesh
+    depends_on:
+      litellm:
+        condition: service_started
+      searxng-core:
+        condition: service_started
+
+  # --- Unified Routing & Observability Proxy ---
+  litellm:
+    image: docker.litellm.ai/berriai/litellm:main-stable
+    container_name: litellm
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./config/litellm.yaml:/app/config.yaml:ro
+      - ./config/gcp-creds.json:/app/gcp-creds.json:ro
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@litellm-db:5432/${POSTGRES_DB}
+      - STORE_MODEL_IN_DB=True
+      - LITELLM_MASTER_KEY=${LITELLM_MASTER_KEY}
+      - LITELLM_SALT_KEY=${LITELLM_SALT_KEY}
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/gcp-creds.json
+      - PROMETHEUS_INITIALIZE_BUDGET_METRICS=True
+    command: ["--config=/app/config.yaml", "--port=4000"]
+    networks:
+      - ai-mesh
+    depends_on:
+      litellm-db:
+        condition: service_healthy
+
+  litellm-db:
+    image: postgres:16-alpine
+    container_name: litellm-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - litellm_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d ${POSTGRES_DB} -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - ai-mesh
+
+  # --- Observability Pipeline ---
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yaml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=15d"
+      - "--web.enable-lifecycle"
+    networks:
+      - ai-mesh
+    depends_on:
+      - litellm
+
+  # --- Privacy-Focused Search Engine ---
+  searxng-core:
+    image: docker.io/searxng/searxng:latest
+    container_name: searxng-core
+    restart: unless-stopped
+    ports:
+      - "${SEARXNG_PORT:-3090}:8080"
+    volumes:
+      - ./config/searxng/:/etc/searxng/:ro
+      - searxng_cache:/var/cache/searxng/
+    environment:
+      - SEARXNG_BASE_URL=http://localhost:${SEARXNG_PORT:-3090}
+      - SEARXNG_SECRET=${SEARXNG_SECRET}
+    networks:
+      - ai-mesh
+    depends_on:
+      - searxng-valkey
+
+  searxng-valkey:
+    image: docker.io/valkey/valkey:9-alpine
+    container_name: searxng-valkey
+    restart: unless-stopped
+    command: valkey-server --save 30 1 --loglevel warning
+    volumes:
+      - valkey_data:/data
+    networks:
+      - ai-mesh
+
+networks:
+  ai-mesh:
+    driver: bridge
+
+volumes:
+  openwebui_data:
+  litellm_postgres_data:
+  prometheus_data:
+  searxng_cache:
+  valkey_data:
